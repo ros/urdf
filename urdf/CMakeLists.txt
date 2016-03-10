@@ -47,7 +47,7 @@ include_directories(
 
 link_directories(${Boost_LIBRARY_DIRS} ${catkin_LIBRARY_DIRS})
 
-add_library(${PROJECT_NAME} src/model.cpp src/rosconsole_bridge.cpp)
+add_library(${PROJECT_NAME} src/model.cpp src/sensor.cpp src/rosconsole_bridge.cpp)
 target_link_libraries(${PROJECT_NAME} ${TinyXML_LIBRARIES} ${TinyXML2_LIBRARIES} ${catkin_LIBRARIES} ${urdfdom_LIBRARIES})
 
 if(WIN32)
