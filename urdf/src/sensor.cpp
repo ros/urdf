@@ -86,50 +86,6 @@ SensorMap parseSensors(const std::string &xml_string, const SensorParserMap &par
   return parseSensors(xml_doc, parsers);
 }
 
-
-/** retrieve list of sensor tags that are handled by given parser */
-static std::set<std::string>
-getSensorTags(pluginlib::ClassLoader<urdf::SensorParser> &loader,
-              const std::string &class_id)
-{
-   const std::string &manifest = loader.getPluginManifestPath(class_id);
-
-   TiXmlDocument doc;
-   doc.LoadFile(manifest);
-   TiXmlElement *library = doc.RootElement();
-   if (!library)
-      throw std::runtime_error("Skipping manifest '" + manifest + "' which failed to parse");
-
-   if (library->ValueStr() != "library" &&
-       library->ValueStr() != "class_libraries")
-      throw std::runtime_error("Expected \"library\" or \"class_libraries\" as the root tag."
-                               "Found: " + library->ValueStr());
-
-   if (library->ValueStr() == "class_libraries")
-     library = library->FirstChildElement("library");
-
-   std::set<std::string> results;
-   for (; library; library = library->FirstChildElement("library"))
-   {
-      for (TiXmlElement* class_element = library->FirstChildElement("class");
-           class_element; class_element = class_element->NextSiblingElement( "class" ))
-      {
-         // TODO: filter by class_id
-         ROS_DEBUG_STREAM("sensor parser: " << class_id);
-         TiXmlElement* tags = class_element->FirstChildElement("tags");
-         for (TiXmlElement* tag = tags ? tags->FirstChildElement() : NULL;
-              tag; tag = tag->NextSiblingElement())
-         {
-            ROS_DEBUG_STREAM("  sensor tag: " << tag->Value());
-            results.insert(tag->Value());
-         }
-      }
-   }
-   if (results.empty())
-      throw std::runtime_error("plugin manifest misses valid sensor tags");
-   return results;
-}
-
 const SensorParserMap& getDefaultSensorParserMap()
 {
   static boost::mutex PARSER_PLUGIN_LOCK;
@@ -145,33 +101,14 @@ const SensorParserMap& getDefaultSensorParserMap()
       const std::vector<std::string> &classes = PARSER_PLUGIN_LOADER->getDeclaredClasses();
       for (std::size_t i = 0 ; i < classes.size() ; ++i)
       {
-         std::set<std::string> sensor_tags;
-         try {
-            sensor_tags = getSensorTags(*PARSER_PLUGIN_LOADER, classes[i]);
-         } catch (const std::runtime_error &e) {
-            ROS_ERROR_STREAM(e.what());
-            continue;
-         }
-
          urdf::SensorParserSharedPtr parser;
          try {
             parser = PARSER_PLUGIN_LOADER->createInstance(classes[i]);
          } catch(const pluginlib::PluginlibException& ex) {
            ROS_ERROR_STREAM("Failed to create sensor parser: " << classes[i] << "\n" << ex.what());
          }
-
-         for (std::set<std::string>::const_iterator
-              it = sensor_tags.begin(), end=sensor_tags.end(); it != end; ++it)
-         {
-           if (defaultParserMap.find(*it) == defaultParserMap.end())
-           {
-              defaultParserMap.insert(std::make_pair(*it, parser));
-           }
-           else
-           {
-              ROS_WARN("ambiguous sensor parser for sensor %s", it->c_str());
-           }
-        }
+         defaultParserMap.insert(std::make_pair(classes[i], parser));
+         ROS_DEBUG_STREAM("added sensor parser: " << classes[i]);
       }
       if (defaultParserMap.empty())
         ROS_WARN_STREAM("No sensor parsers found");
