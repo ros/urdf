@@ -91,12 +91,12 @@ SensorParserMap getSensorParsers(const std::vector<std::string> &allowed)
 {
   static boost::mutex PARSER_PLUGIN_LOCK;
   static boost::shared_ptr<pluginlib::ClassLoader<urdf::SensorParser> > PARSER_PLUGIN_LOADER;
-  static SensorParserMap defaultParserMap;
-
   boost::mutex::scoped_lock _(PARSER_PLUGIN_LOCK);
+
+  SensorParserMap parserMap;
   try
   {
-    if (!PARSER_PLUGIN_LOADER) {
+    if (!PARSER_PLUGIN_LOADER)
       PARSER_PLUGIN_LOADER.reset(new pluginlib::ClassLoader<urdf::SensorParser>("urdf", "urdf::SensorParser"));
 
       const std::vector<std::string> &classes = PARSER_PLUGIN_LOADER->getDeclaredClasses();
@@ -112,18 +112,17 @@ SensorParserMap getSensorParsers(const std::vector<std::string> &allowed)
         } catch(const pluginlib::PluginlibException& ex) {
           ROS_ERROR_STREAM("Failed to create sensor parser: " << classes[i] << "\n" << ex.what());
         }
-        defaultParserMap.insert(std::make_pair(classes[i], parser));
+        parserMap.insert(std::make_pair(classes[i], parser));
         ROS_DEBUG_STREAM("added sensor parser: " << classes[i]);
       }
-      if (defaultParserMap.empty())
+      if (parserMap.empty())
         ROS_WARN_STREAM("No sensor parsers found");
-    }
   }
   catch(const pluginlib::PluginlibException& ex)
   {
     ROS_ERROR_STREAM("Exception while creating sensor plugin loader " << ex.what());
   }
-  return defaultParserMap;
+  return parserMap;
 }
 
 SensorParserMap getSensorParser(const std::string &name)
