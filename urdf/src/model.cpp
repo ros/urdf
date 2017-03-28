@@ -88,9 +88,13 @@ bool Model::initFile(const std::string& filename)
 
 bool Model::initParam(const std::string& param)
 {
-  ros::NodeHandle nh;
+  return initParamWithNodeHandle(param, ros::NodeHandle());
+}
+
+bool Model::initParamWithNodeHandle(const std::string& param, const ros::NodeHandle& nh)
+{
   std::string xml_string;
-  
+
   // gets the location of the robot description on the parameter server
   std::string full_param;
   if (!nh.searchParam(param, full_param)){

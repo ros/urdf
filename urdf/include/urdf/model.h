@@ -42,6 +42,7 @@
 #include <urdf_model/model.h>
 #include <urdf/urdfdom_compatibility.h>
 #include <tinyxml.h>
+#include <ros/ros.h>
 
 namespace urdf{
 
@@ -56,6 +57,7 @@ public:
   bool initFile(const std::string& filename);
   /// \brief Load Model given the name of a parameter on the parameter server
   bool initParam(const std::string& param);
+  bool initParamWithNodeHandle(const std::string& param, const ros::NodeHandle& nh);
   /// \brief Load Model from a XML-string
   bool initString(const std::string& xmlstring);
 };
