@@ -12,3 +12,5 @@ More information is available at [`ros/robot_model#195`](https://github.com/ros/
 
 * `collada_urdf` and `collada_parser`
     * [`ros/collada_urdf`](https://github.com/ros/collada_urdf)
+* `kdl_parser` and `kdl_parser_py`
+    * [`ros/kdl_parser`](https://github.com/ros/kdl_parser)
