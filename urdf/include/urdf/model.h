@@ -41,7 +41,7 @@
 #include <map>
 #include <urdf_model/model.h>
 #include <urdf/urdfdom_compatibility.h>
-#include <tinyxml.h>
+#include <tinyxml2.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 #include <ros/ros.h>
@@ -51,10 +51,10 @@ namespace urdf{
 class Model: public ModelInterface
 {
 public:
-  /// \brief Load Model from TiXMLElement
-  bool initXml(TiXmlElement *xml);
-  /// \brief Load Model from TiXMLDocument
-  bool initXml(TiXmlDocument *xml);
+  /// \brief Load Model from XMLElement
+  bool initXml(tinyxml2::XMLElement *xml);
+  /// \brief Load Model from XMLDocument
+  bool initXml(tinyxml2::XMLDocument *xml);
   /// \brief Load Model given a filename
   bool initFile(const std::string& filename);
   /// \brief Load Model given the name of a parameter on the parameter server

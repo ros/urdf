@@ -50,6 +50,8 @@
 #include <fstream>
 #include <iostream>
 
+using namespace tinyxml2;
+
 namespace urdf{
 
 static bool IsColladaData(const std::string& data)
@@ -108,7 +110,7 @@ bool Model::initParamWithNodeHandle(const std::string& param, const ros::NodeHan
   return Model::initString(xml_string);
 }
 
-bool Model::initXml(TiXmlDocument *xml_doc)
+bool Model::initXml(XMLDocument *xml_doc)
 {
   if (!xml_doc)
   {
@@ -116,13 +118,14 @@ bool Model::initXml(TiXmlDocument *xml_doc)
     return false;
   }
 
-  std::stringstream ss;
-  ss << *xml_doc;
+  XMLPrinter printer;
+  xml_doc->Print(&printer);
+  std::string str(printer.CStr());
 
-  return Model::initString(ss.str());
+  return Model::initString(str);
 }
 
-bool Model::initXml(TiXmlElement *robot_xml)
+bool Model::initXml(XMLElement *robot_xml)
 {
   if (!robot_xml)
   {
@@ -131,7 +134,9 @@ bool Model::initXml(TiXmlElement *robot_xml)
   }
 
   std::stringstream ss;
-  ss << (*robot_xml);
+  XMLPrinter printer;
+  robot_xml->Accept(&printer);
+  ss << printer.CStr();
 
   return Model::initString(ss.str());
 }
