@@ -2,6 +2,11 @@
 Changelog for package urdf
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Change urdf::Model to use std::shared_ptrs in urdfdom > v0.4 (`#206 <https://github.com/ros/robot_model/issues/206>`_)
+* Contributors: Dave Coleman
+
 1.12.9 (2017-04-26)
 -------------------
 
