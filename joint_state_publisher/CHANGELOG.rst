@@ -2,6 +2,9 @@
 Changelog for package joint_state_publisher
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 1.12.10 (2017-06-24)
 --------------------
 

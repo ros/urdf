@@ -2,6 +2,13 @@
 Changelog for package urdf
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Shared ptr yakkety (`#207 <https://github.com/ros/robot_model/issues/207>`_)
+  * Forward declare urdf::Model when urdfdom version is > 0.4
+  * Add test for upcasting from urdf::ModelSharedPtr to urdf::ModelInterfaceSharedPtr
+* Contributors: Shane Loretz
+
 1.12.10 (2017-06-24)
 --------------------
 * Change urdf::Model to use std::shared_ptrs in urdfdom > v0.4 (`#206 <https://github.com/ros/robot_model/issues/206>`_)
