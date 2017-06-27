@@ -53,6 +53,8 @@ if(CATKIN_ENABLE_TESTING)
   find_package(catkin REQUIRED COMPONENTS rostest)
   add_rostest_gtest(test_urdf_parser test/test_robot_model_parser.launch test/test_robot_model_parser.cpp)
   target_link_libraries(test_urdf_parser ${PROJECT_NAME})
+
+  catkin_add_gtest(urdfdom_compatibility_test test/urdfdom_compatibility.cpp)
 endif()
 
 # no idea how CATKIN does this

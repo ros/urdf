@@ -41,7 +41,8 @@
 #define URDFDOM_HEADERS_MINOR_VERSION @URDFDOM_HEADERS_MINOR_VERSION@
 #define URDFDOM_HEADERS_REVISION_VERSION @URDFDOM_HEADERS_REVISION_VERSION@
 
-// for Wily: maintain compatibility between urdfdom 0.3 and 0.4 (definining SharedPtr types)
+// Define shared pointers for urdfdom versions less than 0.4
+// Plus define ModelSharedPtr for 0.4
 #if URDFDOM_HEADERS_MAJOR_VERSION == 0 && URDFDOM_HEADERS_MINOR_VERSION <= 4
 
 #include <boost/shared_ptr.hpp>
@@ -54,6 +55,8 @@ typedef boost::shared_ptr<const Class> Class##ConstSharedPtr; \
 typedef boost::weak_ptr<Class> Class##WeakPtr
 
 namespace urdf {
+// These shared_ptrs were added to urdfdom in 0.4.0,
+// so if urdfdom == 0.4 this is duplicate work
 URDF_TYPEDEF_CLASS_POINTER(Box);
 URDF_TYPEDEF_CLASS_POINTER(Collision);
 URDF_TYPEDEF_CLASS_POINTER(Cylinder);
@@ -74,6 +77,8 @@ URDF_TYPEDEF_CLASS_POINTER(Sphere);
 URDF_TYPEDEF_CLASS_POINTER(Visual);
 
 URDF_TYPEDEF_CLASS_POINTER(ModelInterface);
+
+// ModelSharedPtr is the only one that needs to be defined for urdfdom 0.4
 URDF_TYPEDEF_CLASS_POINTER(Model);
 }
 
@@ -88,6 +93,9 @@ namespace urdf {
 typedef std::shared_ptr<ModelInterface> ModelInterfaceSharedPtr;
 typedef std::shared_ptr<const ModelInterface> ModelInterfaceConstSharedPtr;
 typedef std::weak_ptr<ModelInterface> ModelInterfaceWeakPtr;
+
+// Forward declaration
+class Model;
 
 typedef std::shared_ptr<Model> ModelSharedPtr;
 typedef std::shared_ptr<const Model> ModelConstSharedPtr;
