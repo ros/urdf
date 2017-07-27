@@ -237,7 +237,9 @@ class JointStatePublisher():
                 if has_effort and 'effort' in joint:
                     msg.effort[i] = joint['effort']
 
-            self.pub.publish(msg)
+            if msg.name or msg.position or msg.velocity or msg.effort:
+                # Only publish non-empty messages
+                self.pub.publish(msg)
             try:
                 r.sleep()
             except rospy.exceptions.ROSTimeMovedBackwardsException:
