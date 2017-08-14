@@ -2,6 +2,12 @@
 Changelog for package urdf
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* add missing build/build_export/run dependency on tinyxml `#214 <https://github.com/ros/robot_model/issues/214>`_
+* add missing ModelSharedPtr typedefs in indigo `#210 <https://github.com/ros/robot_model/issues/210>`_
+* Contributors: Michael Görner, Shane Loretz
+
 1.11.13 (2017-03-27)
 --------------------
 * Use urdf::*ShredPtr instead of boost::shared_ptr (`#144 <https://github.com/ros/robot_model/issues/144>`_)
