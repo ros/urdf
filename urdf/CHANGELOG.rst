@@ -2,8 +2,8 @@
 Changelog for package urdf
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.11.14 (2017-08-14)
+--------------------
 * add missing build/build_export/run dependency on tinyxml `#214 <https://github.com/ros/robot_model/issues/214>`_
 * add missing ModelSharedPtr typedefs in indigo `#210 <https://github.com/ros/robot_model/issues/210>`_
 * Contributors: Michael Görner, Shane Loretz
