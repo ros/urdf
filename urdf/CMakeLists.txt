@@ -11,7 +11,6 @@ find_package(catkin REQUIRED COMPONENTS
 find_package(TinyXML REQUIRED)
 
 find_package(PkgConfig)
-pkg_check_modules(libpcrecpp libpcrecpp)
 
 # Find version components
 if(NOT urdfdom_headers_VERSION)
@@ -28,7 +27,7 @@ catkin_package(
   LIBRARIES ${PROJECT_NAME}
   INCLUDE_DIRS include ${CATKIN_DEVEL_PREFIX}/include
   CATKIN_DEPENDS rosconsole_bridge roscpp
-  DEPENDS urdfdom_headers urdfdom Boost pcrecpp TinyXML
+  DEPENDS urdfdom_headers urdfdom Boost TinyXML
 )
 install(FILES ${generated_compat_header} DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})
 
@@ -60,7 +59,7 @@ endif()
 # no idea how CATKIN does this
 # rosbuild_add_rostest(${PROJECT_SOURCE_DIR}/test/test_robot_model_parser.launch)
 
-install(TARGETS ${PROJECT_NAME} 
+install(TARGETS ${PROJECT_NAME}
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
