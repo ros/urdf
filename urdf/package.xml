@@ -1,4 +1,4 @@
-<package>
+<package format="2">
   <name>urdf</name>
   <version>1.12.11</version>
   <description>
@@ -28,15 +28,17 @@
   <build_depend>urdf_parser_plugin</build_depend>
   <build_depend>pluginlib</build_depend>
   <build_depend>cmake_modules</build_depend>
-  <build_depend>rostest</build_depend>
   <build_depend>tinyxml</build_depend>
 
-  <run_depend>liburdfdom-dev</run_depend>
-  <run_depend>liburdfdom-headers-dev</run_depend>
-  <run_depend>rosconsole_bridge</run_depend>
-  <run_depend>roscpp</run_depend>
-  <run_depend>urdf_parser_plugin</run_depend>
-  <run_depend>pluginlib</run_depend>
-  <run_depend>tinyxml</run_depend>
+  <exec_depend>liburdfdom-dev</exec_depend>
+  <exec_depend>rosconsole_bridge</exec_depend>
+  <exec_depend>roscpp</exec_depend>
+  <exec_depend>pluginlib</exec_depend>
+  <exec_depend>tinyxml</exec_depend>
+
+  <build_export_depend>tinyxml</build_export_depend>
+  <build_export_depend>liburdfdom-headers-dev</build_export_depend>
+
+  <test_depend>rostest</test_depend>
 
 </package>
