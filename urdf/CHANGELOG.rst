@@ -2,8 +2,8 @@
 Changelog for package urdf
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.12.12 (2017-11-08)
+--------------------
 * Switched to package format 2 and made rostest a test_depend (`#221 <https://github.com/ros/robot_model/pull/221>`_)
 * Made rostest a test_depend (`#221 <https://github.com/ros/robot_model/pull/221>`_)
 * Added missing dependency on tinyxml (`#213 <https://github.com/ros/robot_model/pull/213>`_)
