@@ -2,6 +2,13 @@
 Changelog for package urdf
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Added Add initParamWithNodeHandle `#193 <https://github.com/ros/robot_model/pull/193>`_
+* Removed pcrecpp from dependencies `#216 <https://github.com/ros/robot_model/pull/216>`_
+* Added forward declaration on Model `#217 <https://github.com/ros/robot_model/pull/217>`_
+* Contributors: Michael Görner, Chris Lalancette, Mike Liu
+
 1.11.14 (2017-08-14)
 --------------------
 * add missing build/build_export/run dependency on tinyxml `#214 <https://github.com/ros/robot_model/issues/214>`_
