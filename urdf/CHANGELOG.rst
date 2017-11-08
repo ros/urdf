@@ -2,6 +2,14 @@
 Changelog for package urdf
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Switched to package format 2 and made rostest a test_depend (`#221 <https://github.com/ros/robot_model/pull/221>`_)
+* Made rostest a test_depend (`#221 <https://github.com/ros/robot_model/pull/221>`_)
+* Added missing dependency on tinyxml (`#213 <https://github.com/ros/robot_model/pull/213>`_)
+* Contributors: Chris Lalancette, Mikael Arguedas
+
+
 1.12.11 (2017-06-27)
 --------------------
 * Shared ptr yakkety (`#207 <https://github.com/ros/robot_model/issues/207>`_)
