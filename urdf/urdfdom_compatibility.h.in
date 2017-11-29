@@ -34,8 +34,8 @@
 
 /* Robert Haschke */
 
-#ifndef URDF_URDFDOM_COMPATIBILITY_
-#define URDF_URDFDOM_COMPATIBILITY_
+#ifndef URDF__URDFDOM_COMPATIBILITY_H_
+#define URDF__URDFDOM_COMPATIBILITY_H_
 
 #define URDFDOM_HEADERS_MAJOR_VERSION @URDFDOM_HEADERS_MAJOR_VERSION@
 #define URDFDOM_HEADERS_MINOR_VERSION @URDFDOM_HEADERS_MINOR_VERSION@
@@ -49,12 +49,13 @@
 #include <boost/weak_ptr.hpp>
 
 #define URDF_TYPEDEF_CLASS_POINTER(Class) \
-class Class; \
-typedef boost::shared_ptr<Class> Class##SharedPtr; \
-typedef boost::shared_ptr<const Class> Class##ConstSharedPtr; \
-typedef boost::weak_ptr<Class> Class##WeakPtr
+  class Class; \
+  typedef boost::shared_ptr<Class> Class ## SharedPtr; \
+  typedef boost::shared_ptr<const Class> Class ## ConstSharedPtr; \
+  typedef boost::weak_ptr<Class> Class ## WeakPtr
 
-namespace urdf {
+namespace urdf
+{
 // These shared_ptrs were added to urdfdom in 0.4.0,
 // so if urdfdom == 0.4 this is duplicate work
 URDF_TYPEDEF_CLASS_POINTER(Box);
@@ -80,16 +81,19 @@ URDF_TYPEDEF_CLASS_POINTER(ModelInterface);
 
 // ModelSharedPtr is the only one that needs to be defined for urdfdom 0.4
 URDF_TYPEDEF_CLASS_POINTER(Model);
-}
+}  // namespace urdf
 
 #undef URDF_TYPEDEF_CLASS_POINTER
 
-#else // urdfdom <= 0.4
+#else  // urdfdom <= 0.4
+
+#include <memory>
 
 #include <urdf_model/types.h>
 #include <urdf_world/types.h>
 
-namespace urdf {
+namespace urdf
+{
 typedef std::shared_ptr<ModelInterface> ModelInterfaceSharedPtr;
 typedef std::shared_ptr<const ModelInterface> ModelInterfaceConstSharedPtr;
 typedef std::weak_ptr<ModelInterface> ModelInterfaceWeakPtr;
@@ -100,8 +104,8 @@ class Model;
 typedef std::shared_ptr<Model> ModelSharedPtr;
 typedef std::shared_ptr<const Model> ModelConstSharedPtr;
 typedef std::weak_ptr<Model> ModelWeakPtr;
-}
+}  // namespace urdf
 
-#endif // urdfdom > 0.4
+#endif  // urdfdom > 0.4
 
-#endif // URDF_URDFDOM_COMPATIBILITY_
+#endif  // URDF__URDFDOM_COMPATIBILITY_H_
