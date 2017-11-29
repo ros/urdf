@@ -45,6 +45,10 @@ link_directories(${Boost_LIBRARY_DIRS} ${catkin_LIBRARY_DIRS})
 add_library(${PROJECT_NAME} src/model.cpp src/rosconsole_bridge.cpp)
 target_link_libraries(${PROJECT_NAME} ${TinyXML_LIBRARIES} ${catkin_LIBRARIES} ${urdfdom_LIBRARIES})
 
+if(WIN32)
+  target_compile_definitions(${PROJECT_NAME} PRIVATE "URDF_BUILDING_DLL")
+endif()
+
 if(APPLE)
   set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
 endif(APPLE)

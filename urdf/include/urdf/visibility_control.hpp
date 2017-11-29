@@ -1,7 +1,7 @@
 /*********************************************************************
 * Software License Agreement (BSD License)
 *
-*  Copyright (c) 2008, Willow Garage, Inc.
+*  Copyright (c) 2017, Open Source Robotics Foundation, Inc.
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without
@@ -14,7 +14,7 @@
 *     copyright notice, this list of conditions and the following
 *     disclaimer in the documentation and/or other materials provided
 *     with the distribution.
-*   * Neither the name of the Willow Garage nor the names of its
+*   * Neither the name of the copyright holder nor the names of its
 *     contributors may be used to endorse or promote products derived
 *     from this software without specific prior written permission.
 *
@@ -32,46 +32,45 @@
 *  POSSIBILITY OF SUCH DAMAGE.
 *********************************************************************/
 
-/* Author: Wim Meeussen */
+/* This header must be included by all urdf headers which declare symbols
+ * which are defined in the urdf library. When not building the urdf
+ * library, i.e. when using the headers in other package's code, the contents
+ * of this header change the visibility of certain symbols which the urdf
+ * library cannot have, but the consuming code must have inorder to link.
+ */
 
-#ifndef URDF__MODEL_H_
-#define URDF__MODEL_H_
+#ifndef URDF__VISIBILITY_CONTROL_HPP_
+#define URDF__VISIBILITY_CONTROL_HPP_
 
-#include <string>
+// This logic was borrowed (then namespaced) from the examples on the gcc wiki:
+//     https://gcc.gnu.org/wiki/Visibility
 
-#include <urdf_model/model.h>
-#include <urdf/urdfdom_compatibility.h>
-#include <tinyxml.h>
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
-#include <ros/ros.h>
+#if defined _WIN32 || defined __CYGWIN__
+  #ifdef __GNUC__
+    #define URDF_EXPORT __attribute__ ((dllexport))
+    #define URDF_IMPORT __attribute__ ((dllimport))
+  #else
+    #define URDF_EXPORT __declspec(dllexport)
+    #define URDF_IMPORT __declspec(dllimport)
+  #endif
+  #ifdef URDF_BUILDING_LIBRARY
+    #define URDF_PUBLIC URDF_EXPORT
+  #else
+    #define URDF_PUBLIC URDF_IMPORT
+  #endif
+  #define URDF_PUBLIC_TYPE URDF_PUBLIC
+  #define URDF_LOCAL
+#else
+  #define URDF_EXPORT __attribute__ ((visibility("default")))
+  #define URDF_IMPORT
+  #if __GNUC__ >= 4
+    #define URDF_PUBLIC __attribute__ ((visibility("default")))
+    #define URDF_LOCAL  __attribute__ ((visibility("hidden")))
+  #else
+    #define URDF_PUBLIC
+    #define URDF_LOCAL
+  #endif
+  #define URDF_PUBLIC_TYPE
+#endif
 
-#include "urdf/visibility_control.hpp"
-
-namespace urdf
-{
-
-class Model : public ModelInterface
-{
-public:
-  /// \brief Load Model from TiXMLElement
-  URDF_EXPORT bool initXml(TiXmlElement * xml);
-  /// \brief Load Model from TiXMLDocument
-  URDF_EXPORT bool initXml(TiXmlDocument * xml);
-  /// \brief Load Model given a filename
-  URDF_EXPORT bool initFile(const std::string & filename);
-  /// \brief Load Model given the name of a parameter on the parameter server
-  URDF_EXPORT bool initParam(const std::string & param);
-  /// \brief Load Model given the name of parameter on parameter server using provided nodehandle
-  URDF_EXPORT bool initParamWithNodeHandle(const std::string & param,
-    const ros::NodeHandle & nh = ros::NodeHandle());
-  /// \brief Load Model from a XML-string
-  URDF_EXPORT bool initString(const std::string & xmlstring);
-};
-
-// shared_ptr declarations moved to urdf/urdfdom_compatibility.h to allow for
-// std::shared_ptrs in latest version
-
-}  // namespace urdf
-
-#endif  // URDF__MODEL_H_
+#endif  // URDF__VISIBILITY_CONTROL_HPP_
