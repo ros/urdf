@@ -34,7 +34,10 @@
 
 /* Author: Wim Meeussen */
 
+#include <cmath>
 #include <string>
+#include <vector>
+
 #include <gtest/gtest.h>
 #include "urdf/model.h"
 
@@ -42,92 +45,80 @@
 // args from command-line.
 #include <ros/ros.h>
 
-using namespace urdf;
-
 int g_argc;
-char** g_argv;
+char ** g_argv;
 
 class TestParser : public testing::Test
 {
 public:
-
   bool checkModel(urdf::Model & robot)
   {
     // get root link
     urdf::LinkConstSharedPtr root_link = robot.getRoot();
-    if (!root_link)
-    {
+    if (!root_link) {
       ROS_ERROR("no root link %s", robot.getName().c_str());
       return false;
     }
 
     // go through entire tree
     return this->traverse_tree(root_link);
-
-  };
+  }
 
 protected:
   /// constructor
   // num_links starts at 1 because traverse_tree doesn't count the root node
-  TestParser() : num_joints(0), num_links(1)
+  TestParser()
+  : num_joints(0), num_links(1)
   {
   }
-
 
   /// Destructor
   ~TestParser()
   {
   }
 
-  bool traverse_tree(urdf::LinkConstSharedPtr link,int level = 0)
+  bool traverse_tree(urdf::LinkConstSharedPtr link, int level = 0)
   {
     ROS_INFO("Traversing tree at level %d, link size %lu", level, link->child_links.size());
-    level+=2;
+    level += 2;
     bool retval = true;
-    for (std::vector<urdf::LinkSharedPtr>::const_iterator child = link->child_links.begin(); child != link->child_links.end(); child++)
+    for (std::vector<urdf::LinkSharedPtr>::const_iterator child = link->child_links.begin();
+      child != link->child_links.end(); child++)
     {
       ++num_links;
-      if (*child && (*child)->parent_joint)
-      {
+      if (*child && (*child)->parent_joint) {
         ++num_joints;
         // check rpy
-        double roll,pitch,yaw;
-        (*child)->parent_joint->parent_to_joint_origin_transform.rotation.getRPY(roll,pitch,yaw);
+        double roll, pitch, yaw;
+        (*child)->parent_joint->parent_to_joint_origin_transform.rotation.getRPY(roll, pitch, yaw);
 
-        if (std::isnan(roll) || std::isnan(pitch) || std::isnan(yaw))
-        {
+        if (std::isnan(roll) || std::isnan(pitch) || std::isnan(yaw)) {
           ROS_ERROR("getRPY() returned nan!");
           return false;
         }
         // recurse down the tree
-        retval &= this->traverse_tree(*child,level);
-      }
-      else
-      {
-        ROS_ERROR("root link: %s has a null child!",link->name.c_str());
+        retval &= this->traverse_tree(*child, level);
+      } else {
+        ROS_ERROR("root link: %s has a null child!", link->name.c_str());
         return false;
       }
     }
     // no more children
     return retval;
-  };
+  }
 
   size_t num_joints;
   size_t num_links;
 };
 
-
-
-
-TEST_F(TestParser, test)
-{
+TEST_F(TestParser, test) {
   ASSERT_GE(g_argc, 3);
   std::string folder = std::string(g_argv[1]) + "/test/";
-  ROS_INFO("Folder %s",folder.c_str());
+  ROS_INFO("Folder %s", folder.c_str());
   std::string file = std::string(g_argv[2]);
-  bool expect_success = (file.substr(0,5)  != "fail_");
+  bool expect_success = (file.substr(0, 5) != "fail_");
   urdf::Model robot;
-  ROS_INFO("Parsing file %s, expecting %d",(folder + file).c_str(), expect_success);
+  ROS_INFO("Parsing file %s, expecting %d", (folder + file).c_str(), expect_success);
   if (!expect_success) {
     ASSERT_FALSE(robot.initFile(folder + file));
     return;
@@ -158,10 +149,7 @@ TEST_F(TestParser, test)
   SUCCEED();
 }
 
-
-
-
-int main(int argc, char** argv)
+int main(int argc, char ** argv)
 {
   // Calling ros::init(), just to remove unwanted args from command-line.
   ros::init(argc, argv, "test", ros::init_options::AnonymousName);

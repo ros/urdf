@@ -1,13 +1,13 @@
 /*********************************************************************
 * Software License Agreement (BSD License)
-* 
+*
 *  Copyright (c) 2008, Willow Garage, Inc.
 *  All rights reserved.
-* 
+*
 *  Redistribution and use in source and binary forms, with or without
 *  modification, are permitted provided that the following conditions
 *  are met:
-* 
+*
 *   * Redistributions of source code must retain the above copyright
 *     notice, this list of conditions and the following disclaimer.
 *   * Redistributions in binary form must reproduce the above
@@ -17,7 +17,7 @@
 *   * Neither the name of the Willow Garage nor the names of its
 *     contributors may be used to endorse or promote products derived
 *     from this software without specific prior written permission.
-* 
+*
 *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
 *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
@@ -34,9 +34,14 @@
 
 /* Author: Wim Meeussen */
 
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <vector>
+
 #include "urdf/model.h"
 
-/* we include the default parser for plain URDF files; 
+/* we include the default parser for plain URDF files;
    other parsers are loaded via plugins (if available) */
 #include <urdf_parser/urdf_parser.h>
 #include <urdf_parser_plugin/parser.h>
@@ -46,53 +51,43 @@
 #include <boost/scoped_ptr.hpp>
 #include <boost/thread.hpp>
 
-#include <vector>
-#include <fstream>
-#include <iostream>
+namespace urdf
+{
 
-namespace urdf{
-
-static bool IsColladaData(const std::string& data)
+static bool IsColladaData(const std::string & data)
 {
   return data.find("<COLLADA") != std::string::npos;
 }
 
-
-bool Model::initFile(const std::string& filename)
+bool Model::initFile(const std::string & filename)
 {
-
   // get the entire file
   std::string xml_string;
   std::fstream xml_file(filename.c_str(), std::fstream::in);
-  if (xml_file.is_open())
-  {
-    while ( xml_file.good() )
-    {
+  if (xml_file.is_open()) {
+    while (xml_file.good() ) {
       std::string line;
-      std::getline( xml_file, line);
+      std::getline(xml_file, line);
       xml_string += (line + "\n");
     }
     xml_file.close();
     return Model::initString(xml_string);
-  }
-  else
-  {
+  } else {
     ROS_ERROR("Could not open file [%s] for parsing.",filename.c_str());
     return false;
   }
-
 }
 
 
-bool Model::initParam(const std::string& param)
+bool Model::initParam(const std::string & param)
 {
   return initParamWithNodeHandle(param, ros::NodeHandle());
 }
 
-bool Model::initParamWithNodeHandle(const std::string& param, const ros::NodeHandle& nh)
+bool Model::initParamWithNodeHandle(const std::string & param, const ros::NodeHandle & nh)
 {
   std::string xml_string;
-  
+
   // gets the location of the robot description on the parameter server
   std::string full_param;
   if (!nh.searchParam(param, full_param)){
@@ -108,10 +103,9 @@ bool Model::initParamWithNodeHandle(const std::string& param, const ros::NodeHan
   return Model::initString(xml_string);
 }
 
-bool Model::initXml(TiXmlDocument *xml_doc)
+bool Model::initXml(TiXmlDocument * xml_doc)
 {
-  if (!xml_doc)
-  {
+  if (!xml_doc) {
     ROS_ERROR("Could not parse the xml document");
     return false;
   }
@@ -122,10 +116,9 @@ bool Model::initXml(TiXmlDocument *xml_doc)
   return Model::initString(ss.str());
 }
 
-bool Model::initXml(TiXmlElement *robot_xml)
+bool Model::initXml(TiXmlElement * robot_xml)
 {
-  if (!robot_xml)
-  {
+  if (!robot_xml) {
     ROS_ERROR("Could not parse the xml element");
     return false;
   }
@@ -136,12 +129,12 @@ bool Model::initXml(TiXmlElement *robot_xml)
   return Model::initString(ss.str());
 }
 
-bool Model::initString(const std::string& xml_string)
+bool Model::initString(const std::string & xml_string)
 {
   urdf::ModelInterfaceSharedPtr model;
 
   // necessary for COLLADA compatibility
-  if( IsColladaData(xml_string) ) {
+  if (IsColladaData(xml_string)) {
     ROS_DEBUG("Parsing robot collada xml string");
 
     static boost::mutex PARSER_PLUGIN_LOCK;
@@ -170,14 +163,13 @@ bool Model::initString(const std::string& xml_string)
     {
       ROS_ERROR_STREAM("Exception while creating planning plugin loader " << ex.what() << ". Will not parse Collada file.");
     }
-  }
-  else {
+  } else {
     ROS_DEBUG("Parsing robot urdf xml string");
     model = parseURDF(xml_string);
   }
 
   // copy data from model into this object
-  if (model){
+  if (model) {
     this->links_ = model->links_;
     this->joints_ = model->joints_;
     this->materials_ = model->materials_;
@@ -187,7 +179,4 @@ bool Model::initString(const std::string& xml_string)
   }
   return false;
 }
-
-
-
-}// namespace
+}  // namespace urdf
