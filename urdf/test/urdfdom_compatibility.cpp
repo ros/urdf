@@ -33,11 +33,13 @@
 *********************************************************************/
 
 #include <gtest/gtest.h>
+
+#include <string>
+
 #include "urdf/model.h"
 
 
-TEST(UrdfCompatibility, UpcastSharedPtr)
-{
+TEST(UrdfCompatibility, UpcastSharedPtr) {
   urdf::ModelSharedPtr model(new urdf::Model);
   model->name_ = "UpcastSharedPtr";
   urdf::ModelInterfaceSharedPtr interface = model;
@@ -45,9 +47,8 @@ TEST(UrdfCompatibility, UpcastSharedPtr)
 }
 
 
-int main(int argc, char** argv)
+int main(int argc, char ** argv)
 {
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
-
