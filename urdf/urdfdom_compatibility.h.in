@@ -45,8 +45,8 @@
 // Plus define ModelSharedPtr for 0.4
 #if URDFDOM_HEADERS_MAJOR_VERSION == 0 && URDFDOM_HEADERS_MINOR_VERSION <= 4
 
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
+#include "boost/shared_ptr.hpp"
+#include "boost/weak_ptr.hpp"
 
 #define URDF_TYPEDEF_CLASS_POINTER(Class) \
   class Class; \
@@ -89,8 +89,8 @@ URDF_TYPEDEF_CLASS_POINTER(Model);
 
 #include <memory>
 
-#include <urdf_model/types.h>
-#include <urdf_world/types.h>
+#include "urdf_model/types.h"
+#include "urdf_world/types.h"
 
 namespace urdf
 {

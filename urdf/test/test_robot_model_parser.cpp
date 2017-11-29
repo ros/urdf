@@ -38,12 +38,8 @@
 #include <string>
 #include <vector>
 
-#include <gtest/gtest.h>
+#include "gtest/gtest.h"
 #include "urdf/model.h"
-
-// Including ros, just to be able to call ros::init(), to remove unwanted
-// args from command-line.
-#include <ros/ros.h>
 
 int g_argc;
 char ** g_argv;
@@ -56,7 +52,7 @@ public:
     // get root link
     urdf::LinkConstSharedPtr root_link = robot.getRoot();
     if (!root_link) {
-      ROS_ERROR("no root link %s", robot.getName().c_str());
+      fprintf(stderr, "no root link %s\n", robot.getName().c_str());
       return false;
     }
 
@@ -79,7 +75,8 @@ protected:
 
   bool traverse_tree(urdf::LinkConstSharedPtr link, int level = 0)
   {
-    ROS_INFO("Traversing tree at level %d, link size %lu", level, link->child_links.size());
+    fprintf(stderr, "Traversing tree at level %d, link size %lu\n",
+      level, link->child_links.size());
     level += 2;
     bool retval = true;
     for (std::vector<urdf::LinkSharedPtr>::const_iterator child = link->child_links.begin();
@@ -93,13 +90,13 @@ protected:
         (*child)->parent_joint->parent_to_joint_origin_transform.rotation.getRPY(roll, pitch, yaw);
 
         if (std::isnan(roll) || std::isnan(pitch) || std::isnan(yaw)) {
-          ROS_ERROR("getRPY() returned nan!");
+          fprintf(stderr, "getRPY() returned nan!\n");
           return false;
         }
         // recurse down the tree
         retval &= this->traverse_tree(*child, level);
       } else {
-        ROS_ERROR("root link: %s has a null child!", link->name.c_str());
+        fprintf(stderr, "root link: %s has a null child!\n", link->name.c_str());
         return false;
       }
     }
@@ -114,11 +111,11 @@ protected:
 TEST_F(TestParser, test) {
   ASSERT_GE(g_argc, 3);
   std::string folder = std::string(g_argv[1]) + "/test/";
-  ROS_INFO("Folder %s", folder.c_str());
+  fprintf(stderr, "Folder %s\n", folder.c_str());
   std::string file = std::string(g_argv[2]);
   bool expect_success = (file.substr(0, 5) != "fail_");
   urdf::Model robot;
-  ROS_INFO("Parsing file %s, expecting %d", (folder + file).c_str(), expect_success);
+  fprintf(stderr, "Parsing file %s, expecting %d\n", (folder + file).c_str(), expect_success);
   if (!expect_success) {
     ASSERT_FALSE(robot.initFile(folder + file));
     return;
@@ -151,8 +148,6 @@ TEST_F(TestParser, test) {
 
 int main(int argc, char ** argv)
 {
-  // Calling ros::init(), just to remove unwanted args from command-line.
-  ros::init(argc, argv, "test", ros::init_options::AnonymousName);
   testing::InitGoogleTest(&argc, argv);
   g_argc = argc;
   g_argv = argv;

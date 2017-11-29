@@ -43,13 +43,7 @@
 
 /* we include the default parser for plain URDF files;
    other parsers are loaded via plugins (if available) */
-#include <urdf_parser/urdf_parser.h>
-#include <urdf_parser_plugin/parser.h>
-#include <pluginlib/class_loader.h>
-
-#include <boost/algorithm/string.hpp>
-#include <boost/scoped_ptr.hpp>
-#include <boost/thread.hpp>
+#include "urdf_parser/urdf_parser.h"
 
 namespace urdf
 {
@@ -73,12 +67,12 @@ bool Model::initFile(const std::string & filename)
     xml_file.close();
     return Model::initString(xml_string);
   } else {
-    ROS_ERROR("Could not open file [%s] for parsing.",filename.c_str());
+    fprintf(stderr, "Could not open file [%s] for parsing.\n", filename.c_str());
     return false;
   }
 }
 
-
+/*
 bool Model::initParam(const std::string & param)
 {
   return initParamWithNodeHandle(param, ros::NodeHandle());
@@ -102,11 +96,12 @@ bool Model::initParamWithNodeHandle(const std::string & param, const ros::NodeHa
   }
   return Model::initString(xml_string);
 }
+*/
 
 bool Model::initXml(TiXmlDocument * xml_doc)
 {
   if (!xml_doc) {
-    ROS_ERROR("Could not parse the xml document");
+    fprintf(stderr, "Could not parse the xml document.\n");
     return false;
   }
 
@@ -119,7 +114,7 @@ bool Model::initXml(TiXmlDocument * xml_doc)
 bool Model::initXml(TiXmlElement * robot_xml)
 {
   if (!robot_xml) {
-    ROS_ERROR("Could not parse the xml element");
+    fprintf(stderr, "Could not parse the xml element.\n");
     return false;
   }
 
@@ -135,6 +130,9 @@ bool Model::initString(const std::string & xml_string)
 
   // necessary for COLLADA compatibility
   if (IsColladaData(xml_string)) {
+    fprintf(stderr, "Parsing robot collada xml string is not yet supported.\n");
+    return false;
+    /*
     ROS_DEBUG("Parsing robot collada xml string");
 
     static boost::mutex PARSER_PLUGIN_LOCK;
@@ -144,27 +142,29 @@ bool Model::initString(const std::string & xml_string)
     try
     {
       if (!PARSER_PLUGIN_LOADER)
-	PARSER_PLUGIN_LOADER.reset(new pluginlib::ClassLoader<urdf::URDFParser>("urdf_parser_plugin", "urdf::URDFParser"));
-      const std::vector<std::string> &classes = PARSER_PLUGIN_LOADER->getDeclaredClasses();
-      bool found = false;
-      for (std::size_t i = 0 ; i < classes.size() ; ++i)
-	if (classes[i].find("urdf/ColladaURDFParser") != std::string::npos)
-	{
-	  boost::shared_ptr<urdf::URDFParser> instance = PARSER_PLUGIN_LOADER->createInstance(classes[i]);
-	  if (instance)
-	    model = instance->parse(xml_string);
-	  found = true;
-	  break;
-	}
-      if (!found)
-	ROS_ERROR_STREAM("No URDF parser plugin found for Collada files. Did you install the corresponding package?");
-    }
-    catch(pluginlib::PluginlibException& ex)
-    {
-      ROS_ERROR_STREAM("Exception while creating planning plugin loader " << ex.what() << ". Will not parse Collada file.");
-    }
+        PARSER_PLUGIN_LOADER.reset(new pluginlib::ClassLoader<urdf::URDFParser>("urdf_parser_plugin", "urdf::URDFParser"));
+     const std::vector<std::string> &classes = PARSER_PLUGIN_LOADER->getDeclaredClasses();
+     bool found = false;
+     for (std::size_t i = 0 ; i < classes.size() ; ++i)
+       if (classes[i].find("urdf/ColladaURDFParser") != std::string::npos)
+     {
+       boost::shared_ptr<urdf::URDFParser> instance = PARSER_PLUGIN_LOADER->createInstance(classes[i]);
+       if (instance)
+         model = instance->parse(xml_string);
+       found = true;
+       break;
+     }
+     if (!found)
+       ROS_ERROR_STREAM("No URDF parser plugin found for Collada files. Did you install the corresponding package?");
+   }
+   catch(pluginlib::PluginlibException& ex)
+   {
+     ROS_ERROR_STREAM("Exception while creating planning plugin loader " << ex.what() << ". Will not parse Collada file.");
+   }
+  }
+   */
   } else {
-    ROS_DEBUG("Parsing robot urdf xml string");
+    fprintf(stderr, "Parsing robot urdf xml string.\n");
     model = parseURDF(xml_string);
   }
 

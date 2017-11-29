@@ -19,26 +19,29 @@
   <url type="repository">https://github.com/ros/robot_model</url>
   <url type="bugtracker">https://github.com/ros/robot_model/issues</url>
 
-  <buildtool_depend version_gte="0.5.68">catkin</buildtool_depend>
+  <buildtool_depend>ament_cmake_ros</buildtool_depend>
 
-  <build_depend>liburdfdom-dev</build_depend>
-  <build_depend>liburdfdom-headers-dev</build_depend>
-  <build_depend>rosconsole_bridge</build_depend>
-  <build_depend>roscpp</build_depend>
-  <build_depend>urdf_parser_plugin</build_depend>
-  <build_depend>pluginlib</build_depend>
-  <build_depend>cmake_modules</build_depend>
+  <build_depend>console_bridge</build_depend>
   <build_depend>tinyxml</build_depend>
+  <build_depend>tinyxml_vendor</build_depend>
+  <build_depend>urdfdom</build_depend>
+  <!-- use ROS 2 package urdfdom_headers until upstream provides 1.0.0.-->
+  <build_depend>urdfdom_headers</build_depend>
 
-  <exec_depend>liburdfdom-dev</exec_depend>
-  <exec_depend>rosconsole_bridge</exec_depend>
-  <exec_depend>roscpp</exec_depend>
-  <exec_depend>pluginlib</exec_depend>
   <exec_depend>tinyxml</exec_depend>
+  <exec_depend>tinyxml_vendor</exec_depend>
+  <exec_depend>urdfdom</exec_depend>
+  <!-- use ROS 2 package urdfdom_headers until upstream provides 1.0.0.-->
+  <exec_depend>urdfdom_headers</exec_depend>
 
   <build_export_depend>tinyxml</build_export_depend>
-  <build_export_depend>liburdfdom-headers-dev</build_export_depend>
+  <!-- use ROS 2 package urdfdom_headers until upstream provides 1.0.0.-->
+  <build_export_depend>urdfdom_headers</build_export_depend>
 
-  <test_depend>rostest</test_depend>
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
 
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
 </package>

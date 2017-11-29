@@ -39,13 +39,10 @@
 
 #include <string>
 
-#include <urdf_model/model.h>
-#include <urdf/urdfdom_compatibility.h>
-#include <tinyxml.h>
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
-#include <ros/ros.h>
+#include "tinyxml.h"  // NOLINT
+#include "urdf_model/model.h"
 
+#include "urdf/urdfdom_compatibility.h"
 #include "urdf/visibility_control.hpp"
 
 namespace urdf
@@ -61,10 +58,10 @@ public:
   /// \brief Load Model given a filename
   URDF_EXPORT bool initFile(const std::string & filename);
   /// \brief Load Model given the name of a parameter on the parameter server
-  URDF_EXPORT bool initParam(const std::string & param);
+  // URDF_EXPORT bool initParam(const std::string & param);
   /// \brief Load Model given the name of parameter on parameter server using provided nodehandle
-  URDF_EXPORT bool initParamWithNodeHandle(const std::string & param,
-    const ros::NodeHandle & nh = ros::NodeHandle());
+  // URDF_EXPORT bool initParamWithNodeHandle(const std::string & param,
+  //   const ros::NodeHandle & nh = ros::NodeHandle());
   /// \brief Load Model from a XML-string
   URDF_EXPORT bool initString(const std::string & xmlstring);
 };
