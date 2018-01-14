@@ -31,6 +31,7 @@
   <build_depend>tinyxml</build_depend>
 
   <exec_depend>liburdfdom-dev</exec_depend>
+  <exec_depend>liburdfdom-tools</exec_depend>
   <exec_depend>rosconsole_bridge</exec_depend>
   <exec_depend>roscpp</exec_depend>
   <exec_depend>pluginlib</exec_depend>
