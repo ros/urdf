@@ -59,10 +59,10 @@ if(CATKIN_ENABLE_TESTING)
   target_link_libraries(test_urdf_parser ${PROJECT_NAME})
 
   catkin_add_gtest(urdfdom_compatibility_test test/urdfdom_compatibility.cpp)
-endif()
 
-# no idea how CATKIN does this
-# rosbuild_add_rostest(${PROJECT_SOURCE_DIR}/test/test_robot_model_parser.launch)
+  catkin_add_gtest(test_model_parser_initxml test/test_model_parser_initxml.cpp)
+  target_link_libraries(test_model_parser_initxml ${PROJECT_NAME})
+endif()
 
 install(TARGETS ${PROJECT_NAME}
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
