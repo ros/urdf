@@ -40,10 +40,11 @@
 #include <string>
 
 #include <urdf_model/model.h>
+
 #include <urdf/urdfdom_compatibility.h>
+
 #include <tinyxml.h>
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
+
 #include <ros/ros.h>
 
 #include "urdf/visibility_control.hpp"
