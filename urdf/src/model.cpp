@@ -51,6 +51,8 @@
 #include <boost/scoped_ptr.hpp>
 #include <boost/thread.hpp>
 
+#include <tinyxml.h>
+
 namespace urdf
 {
 
