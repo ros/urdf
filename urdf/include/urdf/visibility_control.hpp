@@ -49,9 +49,11 @@
   #ifdef __GNUC__
     #define URDF_EXPORT __attribute__ ((dllexport))
     #define URDF_IMPORT __attribute__ ((dllimport))
+    #define URDF_DEPRECATED(msg) __attribute__((deprecated(msg)))
   #else
     #define URDF_EXPORT __declspec(dllexport)
     #define URDF_IMPORT __declspec(dllimport)
+    #define URDF_DEPRECATED(msg) __attribute__((deprecated(msg)))
   #endif
   #ifdef URDF_BUILDING_LIBRARY
     #define URDF_PUBLIC URDF_EXPORT
@@ -63,6 +65,7 @@
 #else
   #define URDF_EXPORT __attribute__ ((visibility("default")))
   #define URDF_IMPORT
+  #define URDF_DEPRECATED(msg) __attribute__((deprecated(msg)))
   #if __GNUC__ >= 4
     #define URDF_PUBLIC __attribute__ ((visibility("default")))
     #define URDF_LOCAL  __attribute__ ((visibility("hidden")))
