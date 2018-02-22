@@ -85,6 +85,36 @@ TEST(model_parser_initxml, initxml_tinyxml_document_good)
   ASSERT_TRUE(model.initXml(&xml_doc));
 }
 
+TEST(model_parser_initxml, initxml_tinyxml2_element_bad)
+{
+  urdf::Model model;
+  ASSERT_FALSE(model.initXml(reinterpret_cast<tinyxml2::XMLElement *>(NULL)));
+}
+
+TEST(model_parser_initxml, initxml_tinyxml2_element_good)
+{
+  tinyxml2::XMLDocument xml_doc;
+  xml_doc.Parse(good_robot.c_str());
+
+  urdf::Model model;
+  ASSERT_TRUE(model.initXml(xml_doc.RootElement()));
+}
+
+TEST(model_parser_initxml, initxml_tinyxml2_document_bad)
+{
+  urdf::Model model;
+  ASSERT_FALSE(model.initXml(reinterpret_cast<tinyxml2::XMLDocument *>(NULL)));
+}
+
+TEST(model_parser_initxml, initxml_tinyxml2_document_good)
+{
+  tinyxml2::XMLDocument xml_doc;
+  xml_doc.Parse(good_robot.c_str());
+
+  urdf::Model model;
+  ASSERT_TRUE(model.initXml(&xml_doc));
+}
+
 int main(int argc, char** argv)
 {
   testing::InitGoogleTest(&argc, argv);

@@ -45,6 +45,8 @@
 
 #include <tinyxml.h>
 
+#include <tinyxml2.h>
+
 #include <ros/ros.h>
 
 #include "urdf/visibility_control.hpp"
@@ -56,9 +58,13 @@ class Model : public ModelInterface
 {
 public:
   /// \brief Load Model from TiXMLElement
-  URDF_EXPORT bool initXml(TiXmlElement * xml);
+  URDF_EXPORT URDF_DEPRECATED("TinyXML API is deprecated, use the TinyXML2 version instead") bool initXml(TiXmlElement * xml);
   /// \brief Load Model from TiXMLDocument
-  URDF_EXPORT bool initXml(TiXmlDocument * xml);
+  URDF_EXPORT URDF_DEPRECATED("TinyXML API is deprecated, use the TinyXML2 version instead") bool initXml(TiXmlDocument * xml);
+  /// \brief Load Model from tinyxml2::XMLElement
+  URDF_EXPORT bool initXml(tinyxml2::XMLElement *xml);
+  /// \brief Load Model from tinyxml2::XMLDocument
+  URDF_EXPORT bool initXml(tinyxml2::XMLDocument *xml);
   /// \brief Load Model given a filename
   URDF_EXPORT bool initFile(const std::string & filename);
   /// \brief Load Model given the name of a parameter on the parameter server

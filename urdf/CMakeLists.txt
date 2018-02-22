@@ -9,6 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 
 find_package(TinyXML REQUIRED)
+find_package(TinyXML2 REQUIRED)
 
 # Find version components
 if(NOT urdfdom_headers_VERSION)
@@ -27,7 +28,7 @@ catkin_package(
   LIBRARIES ${PROJECT_NAME}
   INCLUDE_DIRS include ${CATKIN_DEVEL_PREFIX}/include
   CATKIN_DEPENDS rosconsole_bridge roscpp
-  DEPENDS urdfdom_headers urdfdom Boost TinyXML
+  DEPENDS urdfdom_headers urdfdom Boost TinyXML TinyXML2
 )
 install(FILES ${generated_compat_header} DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})
 
@@ -38,12 +39,13 @@ include_directories(
   ${urdfdom_INCLUDE_DIRS}
   ${urdfdom_headers_INCLUDE_DIRS}
   ${TinyXML_INCLUDE_DIRS}
+  ${TinyXML2_INCLUDE_DIRS}
   )
 
 link_directories(${Boost_LIBRARY_DIRS} ${catkin_LIBRARY_DIRS})
 
 add_library(${PROJECT_NAME} src/model.cpp src/rosconsole_bridge.cpp)
-target_link_libraries(${PROJECT_NAME} ${TinyXML_LIBRARIES} ${catkin_LIBRARIES} ${urdfdom_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} ${TinyXML_LIBRARIES} ${TinyXML2_LIBRARIES} ${catkin_LIBRARIES} ${urdfdom_LIBRARIES})
 
 if(WIN32)
   target_compile_definitions(${PROJECT_NAME} PRIVATE "URDF_BUILDING_LIBRARY")
@@ -60,6 +62,7 @@ if(CATKIN_ENABLE_TESTING)
 
   catkin_add_gtest(urdfdom_compatibility_test test/urdfdom_compatibility.cpp)
 
+  set_source_files_properties(test/test_model_parser_initxml.cpp PROPERTIES COMPILE_FLAGS -Wno-deprecated-declarations)
   catkin_add_gtest(test_model_parser_initxml test/test_model_parser_initxml.cpp)
   target_link_libraries(test_model_parser_initxml ${PROJECT_NAME})
 endif()
