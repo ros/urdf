@@ -141,26 +141,27 @@ bool Model::initString(const std::string & xml_string)
     static boost::scoped_ptr<pluginlib::ClassLoader<urdf::URDFParser> > PARSER_PLUGIN_LOADER;
     boost::mutex::scoped_lock _(PARSER_PLUGIN_LOCK);
 
-    try
-    {
-      if (!PARSER_PLUGIN_LOADER)
-	PARSER_PLUGIN_LOADER.reset(new pluginlib::ClassLoader<urdf::URDFParser>("urdf_parser_plugin", "urdf::URDFParser"));
+    try {
+      if (!PARSER_PLUGIN_LOADER) {
+        PARSER_PLUGIN_LOADER.reset(new pluginlib::ClassLoader<urdf::URDFParser>("urdf_parser_plugin", "urdf::URDFParser"));
+      }
       const std::vector<std::string> &classes = PARSER_PLUGIN_LOADER->getDeclaredClasses();
       bool found = false;
-      for (std::size_t i = 0 ; i < classes.size() ; ++i)
-	if (classes[i].find("urdf/ColladaURDFParser") != std::string::npos)
-	{
-	  boost::shared_ptr<urdf::URDFParser> instance = PARSER_PLUGIN_LOADER->createInstance(classes[i]);
-	  if (instance)
-	    model = instance->parse(xml_string);
-	  found = true;
-	  break;
-	}
-      if (!found)
-	ROS_ERROR_STREAM("No URDF parser plugin found for Collada files. Did you install the corresponding package?");
+      for (std::size_t i = 0 ; i < classes.size() ; ++i) {
+        if (classes[i].find("urdf/ColladaURDFParser") != std::string::npos) {
+          boost::shared_ptr<urdf::URDFParser> instance = PARSER_PLUGIN_LOADER->createInstance(classes[i]);
+          if (instance) {
+            model = instance->parse(xml_string);
+          }
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        ROS_ERROR_STREAM("No URDF parser plugin found for Collada files. Did you install the corresponding package?");
+      }
     }
-    catch(pluginlib::PluginlibException& ex)
-    {
+    catch(pluginlib::PluginlibException& ex) {
       ROS_ERROR_STREAM("Exception while creating planning plugin loader " << ex.what() << ". Will not parse Collada file.");
     }
   } else {
