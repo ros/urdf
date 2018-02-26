@@ -49,10 +49,10 @@
 #include <boost/weak_ptr.hpp>
 
 #define URDF_TYPEDEF_CLASS_POINTER(Class) \
-  class Class; \
-  typedef boost::shared_ptr<Class> Class ## SharedPtr; \
-  typedef boost::shared_ptr<const Class> Class ## ConstSharedPtr; \
-  typedef boost::weak_ptr<Class> Class ## WeakPtr
+class Class; \
+typedef boost::shared_ptr<Class> Class##SharedPtr; \
+typedef boost::shared_ptr<const Class> Class##ConstSharedPtr; \
+typedef boost::weak_ptr<Class> Class##WeakPtr
 
 namespace urdf
 {
