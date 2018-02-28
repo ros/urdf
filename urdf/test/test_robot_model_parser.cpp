@@ -82,22 +82,21 @@ protected:
     ROS_INFO("Traversing tree at level %d, link size %lu", level, link->child_links.size());
     level += 2;
     bool retval = true;
-    for (std::vector<urdf::LinkSharedPtr>::const_iterator child = link->child_links.begin();
-      child != link->child_links.end(); child++)
+    for (const urdf::LinkSharedPtr & child : link->child_links)
     {
       ++num_links;
-      if (*child && (*child)->parent_joint) {
+      if (child && child->parent_joint) {
         ++num_joints;
         // check rpy
         double roll, pitch, yaw;
-        (*child)->parent_joint->parent_to_joint_origin_transform.rotation.getRPY(roll, pitch, yaw);
+        child->parent_joint->parent_to_joint_origin_transform.rotation.getRPY(roll, pitch, yaw);
 
         if (std::isnan(roll) || std::isnan(pitch) || std::isnan(yaw)) {
           ROS_ERROR("getRPY() returned nan!");
           return false;
         }
         // recurse down the tree
-        retval &= this->traverse_tree(*child, level);
+        retval &= this->traverse_tree(child, level);
       } else {
         ROS_ERROR("root link: %s has a null child!", link->name.c_str());
         return false;
