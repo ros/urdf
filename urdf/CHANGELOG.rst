@@ -2,8 +2,8 @@
 Changelog for package urdf
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.13.0 (2018-03-19)
+-------------------
 * Add in TinyXML2 versions of the initXml API.
   Also add in some tests, and add in a deprecation warning
   for the TinyXML versions of the APIs.
