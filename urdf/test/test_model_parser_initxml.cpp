@@ -91,7 +91,7 @@ TEST(model_parser_initxml, initxml_tinyxml2_element_good)
   xml_doc.Parse(good_robot.c_str());
 
   urdf::Model model;
-  ASSERT_TRUE(model.initXml(xml_doc.RootElement()));
+  ASSERT_TRUE(model.initXml(*(xml_doc.RootElement())));
 }
 
 TEST(model_parser_initxml, initxml_tinyxml2_document_good)
