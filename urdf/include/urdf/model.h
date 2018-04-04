@@ -62,9 +62,9 @@ public:
   /// \brief Load Model from TiXMLDocument
   URDF_EXPORT URDF_DEPRECATED("TinyXML API is deprecated, use the TinyXML2 version instead") bool initXml(TiXmlDocument * xml);
   /// \brief Load Model from tinyxml2::XMLElement
-  URDF_EXPORT bool initXml(tinyxml2::XMLElement *xml);
+  URDF_EXPORT bool initXml(const tinyxml2::XMLElement *xml);
   /// \brief Load Model from tinyxml2::XMLDocument
-  URDF_EXPORT bool initXml(tinyxml2::XMLDocument *xml);
+  URDF_EXPORT bool initXml(const tinyxml2::XMLDocument *xml);
   /// \brief Load Model given a filename
   URDF_EXPORT bool initFile(const std::string & filename);
   /// \brief Load Model given the name of a parameter on the parameter server
