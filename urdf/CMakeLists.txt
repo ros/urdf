@@ -61,6 +61,7 @@ if(CATKIN_ENABLE_TESTING)
   target_link_libraries(test_urdf_parser ${PROJECT_NAME})
 
   catkin_add_gtest(urdfdom_compatibility_test test/urdfdom_compatibility.cpp)
+  target_link_libraries(urdfdom_compatibility_test ${PROJECT_NAME})
 
   set_source_files_properties(test/test_model_parser_initxml.cpp PROPERTIES COMPILE_FLAGS -Wno-deprecated-declarations)
   catkin_add_gtest(test_model_parser_initxml test/test_model_parser_initxml.cpp)
