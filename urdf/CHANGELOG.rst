@@ -2,6 +2,12 @@
 Changelog for package urdf
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Eliminate a deprecation warning by renaming class_loader.h -> class_loader.hpp (`#16 <https://github.com/ros/urdf/issues/16>`_)
+* Make the pointers const for the new tinyxml2 APIs (`#15 <https://github.com/ros/urdf/issues/15>`_)
+* Contributors: Chris Lalancette, Shane Loretz
+
 1.13.0 (2018-03-19)
 -------------------
 * Add in TinyXML2 versions of the initXml API.
