@@ -26,14 +26,14 @@
   <build_depend>rosconsole_bridge</build_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>urdf_parser_plugin</build_depend>
-  <build_depend>pluginlib</build_depend>
+  <build_depend version_gte="1.11.2">pluginlib</build_depend>
   <build_depend>cmake_modules</build_depend>
   <build_depend>tinyxml</build_depend>
 
   <exec_depend>liburdfdom-dev</exec_depend>
   <exec_depend>rosconsole_bridge</exec_depend>
   <exec_depend>roscpp</exec_depend>
-  <exec_depend>pluginlib</exec_depend>
+  <exec_depend version_gte="1.11.2">pluginlib</exec_depend>
   <exec_depend>tinyxml</exec_depend>
 
   <build_export_depend>tinyxml</build_export_depend>
