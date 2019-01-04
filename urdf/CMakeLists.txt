@@ -27,7 +27,7 @@ add_compile_options(-std=c++11)
 catkin_package(
   LIBRARIES ${PROJECT_NAME}
   INCLUDE_DIRS include ${CATKIN_DEVEL_PREFIX}/include
-  CATKIN_DEPENDS rosconsole_bridge roscpp
+  CATKIN_DEPENDS pluginlib rosconsole_bridge roscpp
   DEPENDS urdfdom_headers urdfdom Boost TinyXML TinyXML2
 )
 install(FILES ${generated_compat_header} DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})
