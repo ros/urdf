@@ -37,7 +37,7 @@
 #include "urdf/model.h"
 
 static const std::string good_robot{"<robot name=\"myrobot\">"
-                                    "  <link>"
+                                    "  <link name=\"dummy\">"
                                     "  </link>"
                                     "</robot>"};
 
