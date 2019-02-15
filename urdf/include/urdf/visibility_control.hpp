@@ -53,7 +53,7 @@
   #else
     #define URDF_EXPORT __declspec(dllexport)
     #define URDF_IMPORT __declspec(dllimport)
-    #define URDF_DEPRECATED(msg) __attribute__((deprecated(msg)))
+    #define URDF_DEPRECATED(msg)
   #endif
   #ifdef URDF_BUILDING_LIBRARY
     #define URDF_PUBLIC URDF_EXPORT
