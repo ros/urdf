@@ -34,6 +34,9 @@ else()
   endif()
 endif()
 
+unset(COMPILER_SUPPORTS_WARNING_NO_DEPRECATED_DECLARATIONS CACHE)
+check_cxx_compiler_flag(-Wno-deprecated-declarations COMPILER_SUPPORTS_WARNING_NO_DEPRECATED_DECLARATIONS)
+
 catkin_package(
   LIBRARIES ${PROJECT_NAME}
   INCLUDE_DIRS include ${CATKIN_DEVEL_PREFIX}/include
@@ -73,7 +76,9 @@ if(CATKIN_ENABLE_TESTING)
   catkin_add_gtest(urdfdom_compatibility_test test/urdfdom_compatibility.cpp)
   target_link_libraries(urdfdom_compatibility_test ${PROJECT_NAME})
 
-  set_source_files_properties(test/test_model_parser_initxml.cpp PROPERTIES COMPILE_FLAGS -Wno-deprecated-declarations)
+  if(COMPILER_SUPPORTS_WARNING_NO_DEPRECATED_DECLARATIONS)
+    set_source_files_properties(test/test_model_parser_initxml.cpp PROPERTIES COMPILE_FLAGS -Wno-deprecated-declarations)
+  endif()
   catkin_add_gtest(test_model_parser_initxml test/test_model_parser_initxml.cpp)
   target_link_libraries(test_model_parser_initxml ${PROJECT_NAME})
 endif()
