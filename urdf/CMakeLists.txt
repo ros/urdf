@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.7)
 project(urdf)
 
 find_package(Boost REQUIRED thread)
@@ -22,7 +22,8 @@ set(generated_compat_header "${CATKIN_DEVEL_PREFIX}/include/${PROJECT_NAME}/urdf
 include_directories("${CATKIN_DEVEL_PREFIX}/include")
 configure_file(urdfdom_compatibility.h.in "${generated_compat_header}" @ONLY)
 
-add_compile_options(-std=c++11)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 catkin_package(
   LIBRARIES ${PROJECT_NAME}
@@ -63,7 +64,9 @@ if(CATKIN_ENABLE_TESTING)
   catkin_add_gtest(urdfdom_compatibility_test test/urdfdom_compatibility.cpp)
   target_link_libraries(urdfdom_compatibility_test ${PROJECT_NAME})
 
+  if(NOT MSVC)
   set_source_files_properties(test/test_model_parser_initxml.cpp PROPERTIES COMPILE_FLAGS -Wno-deprecated-declarations)
+  endif()
   catkin_add_gtest(test_model_parser_initxml test/test_model_parser_initxml.cpp)
   target_link_libraries(test_model_parser_initxml ${PROJECT_NAME})
 endif()
