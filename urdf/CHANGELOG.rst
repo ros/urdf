@@ -2,6 +2,15 @@
 Changelog for package urdf
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+1.13.2 (2020-03-06)
+-------------------
+* Windows bringup. (`#31 <https://github.com/ros/urdf/issues/31>`_)
+* update library install destination (`#28 <https://github.com/ros/urdf/issues/28>`_)
+* Solved problem when static linking against urdf (`#25 <https://github.com/ros/urdf/issues/25>`_)
+* unit test: add missing link name (`#26 <https://github.com/ros/urdf/issues/26>`_)
+* update deprecated macro for MSVC (`#27 <https://github.com/ros/urdf/issues/27>`_)
+* Contributors: James Xu, Robert Haschke, Sean Yen, ivanpauno
+
 1.13.1 (2018-04-05)
 -------------------
 * Eliminate a deprecation warning by renaming class_loader.h -> class_loader.hpp (`#16 <https://github.com/ros/urdf/issues/16>`_)
