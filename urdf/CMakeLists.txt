@@ -22,7 +22,9 @@ set(generated_compat_header "${CATKIN_DEVEL_PREFIX}/include/${PROJECT_NAME}/urdf
 include_directories("${CATKIN_DEVEL_PREFIX}/include")
 configure_file(urdfdom_compatibility.h.in "${generated_compat_header}" @ONLY)
 
-set(CMAKE_CXX_STANDARD 14)
+if(NOT DEFINED CMAKE_CXX_STANDARD OR "${CMAKE_CXX_STANDARD}" LESS 14)
+  set(CMAKE_CXX_STANDARD 14)
+endif()
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 catkin_package(
