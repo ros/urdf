@@ -37,12 +37,20 @@
 #include "urdf/sensor.h"
 
 #include <ros/ros.h>
-#include <pluginlib/class_loader.h>
 #include <boost/shared_ptr.hpp>
 #include <algorithm>
 #include <fstream>
 
 namespace urdf {
+
+ManagedSensorParserMap::ManagedSensorParserMap()
+  : loader(new pluginlib::ClassLoader<urdf::SensorParser>("urdf", "urdf::SensorParser"))
+{}
+
+ManagedSensorParserMap::~ManagedSensorParserMap() {
+  clear();  // first destroy parser instances
+  loader.reset();  // and subsequently the loader
+}
 
 SensorMap parseSensorsFromFile(const std::string &filename, const SensorParserMap &parsers)
 {
@@ -87,13 +95,13 @@ SensorMap parseSensors(const std::string &xml_string, const SensorParserMap &par
   return parseSensors(xml_doc, parsers);
 }
 
-SensorParserMap getSensorParsers(const std::vector<std::string> &allowed)
+ManagedSensorParserMap getSensorParsers(const std::vector<std::string> &allowed)
 {
   pluginlib::ClassLoader<urdf::SensorParser> loader("urdf", "urdf::SensorParser");
-  SensorParserMap parserMap;
+  ManagedSensorParserMap parserMap;
   try
   {
-    const std::vector<std::string> &classes = loader.getDeclaredClasses();
+    const std::vector<std::string> &classes = parserMap.loader->getDeclaredClasses();
     for (std::size_t i = 0 ; i < classes.size() ; ++i)
     {
       // skip this class if not listed in allowed
@@ -102,7 +110,7 @@ SensorParserMap getSensorParsers(const std::vector<std::string> &allowed)
 
       urdf::SensorParserSharedPtr parser;
       try {
-        parser = loader.createInstance(classes[i]);
+        parser = parserMap.loader->createInstance(classes[i]);
       } catch(const pluginlib::PluginlibException& ex) {
         ROS_ERROR_STREAM("Failed to create sensor parser: " << classes[i] << "\n" << ex.what());
       }
@@ -119,7 +127,7 @@ SensorParserMap getSensorParsers(const std::vector<std::string> &allowed)
   return parserMap;
 }
 
-SensorParserMap getSensorParser(const std::string &name)
+ManagedSensorParserMap getSensorParser(const std::string &name)
 {
   std::vector<std::string> allowed;
   allowed.push_back(name);

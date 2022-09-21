@@ -40,17 +40,29 @@
 #include <string>
 #include <map>
 #include <urdf_parser/sensor_parser.h>
+#include <pluginlib/class_loader.h>
 
 namespace urdf {
+
+// Maintain class loader together with created parser instances
+class ManagedSensorParserMap : public SensorParserMap {
+public:
+    std::unique_ptr<pluginlib::ClassLoader<urdf::SensorParser>> loader;
+    ManagedSensorParserMap();
+    ~ManagedSensorParserMap();
+    ManagedSensorParserMap(const ManagedSensorParserMap&) = delete;
+    ManagedSensorParserMap(ManagedSensorParserMap &&) = default;
+    ManagedSensorParserMap &operator=(ManagedSensorParserMap &&) = default;
+};
 
 /** Retrieve sensor parsers available through the plugin-lib mechanism
     whose name matches any of the names listed in allowed.
     If allowed is empty (the default), all parsers will be returned.
 */
-urdf::SensorParserMap getSensorParsers(const std::vector<std::string> &allowed = std::vector<std::string>());
+urdf::ManagedSensorParserMap getSensorParsers(const std::vector<std::string> &allowed = std::vector<std::string>());
 
 /** Conveniency method returning the SensorParserMap for the given sensor name */
-urdf::SensorParserMap getSensorParser(const std::string &name);
+urdf::ManagedSensorParserMap getSensorParser(const std::string &name);
 
 /** parse <sensor> tags in URDF document */
 SensorMap parseSensors(const std::string &xml, const urdf::SensorParserMap &parsers);
