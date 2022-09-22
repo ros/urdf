@@ -90,7 +90,6 @@ URDF_TYPEDEF_CLASS_POINTER(Model);
 #include <memory>
 
 #include <urdf_model/types.h>
-#include <urdf_world/types.h>
 
 namespace urdf
 {
