@@ -21,27 +21,15 @@
 
   <buildtool_depend version_gte="0.5.68">catkin</buildtool_depend>
 
-  <build_depend>liburdfdom-dev</build_depend>
-  <build_depend>liburdfdom-headers-dev</build_depend>
-  <build_depend>rosconsole_bridge</build_depend>
-  <build_depend>roscpp</build_depend>
+  <depend version_gte="1.1">urdfdom_headers</depend>
+  <depend version_gte="1.1">urdfdom</depend>
+  <depend>rosconsole_bridge</depend>
+  <depend>roscpp</depend>
   <build_depend>urdf_parser_plugin</build_depend>
-  <build_depend>pluginlib</build_depend>
+  <depend>pluginlib</depend>
   <build_depend>cmake_modules</build_depend>
-  <build_depend>tinyxml</build_depend>
-  <build_depend>tinyxml2</build_depend>
-
-  <exec_depend>liburdfdom-dev</exec_depend>
-  <exec_depend>rosconsole_bridge</exec_depend>
-  <exec_depend>roscpp</exec_depend>
-  <exec_depend>pluginlib</exec_depend>
-  <exec_depend>tinyxml</exec_depend>
-  <exec_depend>tinyxml2</exec_depend>
-
-  <build_export_depend>tinyxml</build_export_depend>
-  <build_export_depend>tinyxml2</build_export_depend>
-  <build_export_depend>liburdfdom-headers-dev</build_export_depend>
+  <depend>tinyxml</depend>
+  <depend>tinyxml2</depend>
 
   <test_depend>rostest</test_depend>
-
 </package>
