@@ -37,7 +37,6 @@
 #include "urdf/sensor.h"
 
 #include <ros/ros.h>
-#include <boost/shared_ptr.hpp>
 #include <algorithm>
 #include <fstream>
 
@@ -110,7 +109,7 @@ ManagedSensorParserMap getSensorParsers(const std::vector<std::string> &allowed)
 
       urdf::SensorParserSharedPtr parser;
       try {
-        parser = parserMap.loader->createInstance(classes[i]);
+        parser = parserMap.loader->createUniqueInstance(classes[i]);
       } catch(const pluginlib::PluginlibException& ex) {
         ROS_ERROR_STREAM("Failed to create sensor parser: " << classes[i] << "\n" << ex.what());
       }
