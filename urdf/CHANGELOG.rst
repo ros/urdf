@@ -2,8 +2,8 @@
 Changelog for package urdf
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.13.3 (2025-04-10)
+-------------------
 * Set `CMAKE_CXX_STANDARD` only if newer than before (`#38 <https://github.com/ros/urdf/issues/38>`_)
 * Adds and updates urdf ecosystem diagram (`#33 <https://github.com/ros/urdf/issues/33>`_)
 * Contributors: Daniel Reuter, Ian McMahon
