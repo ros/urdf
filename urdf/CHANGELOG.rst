@@ -2,8 +2,8 @@
 Changelog for package urdf
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.13.4 (2025-04-26)
+-------------------
 * Migrate parser plugin from boost to std shared_ptr (`#40 <https://github.com/ros/urdf/issues/40>`_)
 * Contributors: Robert Haschke
 
