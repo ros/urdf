@@ -2,6 +2,11 @@
 Changelog for package urdf
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Migrate parser plugin from boost to std shared_ptr (`#40 <https://github.com/ros/urdf/issues/40>`_)
+* Contributors: Robert Haschke
+
 1.13.3 (2025-04-10)
 -------------------
 * Set `CMAKE_CXX_STANDARD` only if newer than before (`#38 <https://github.com/ros/urdf/issues/38>`_)
